@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" class="form-control" ng-model="appId" placeholder="Application id"> 
+    </div>
+    <div class="col-md-2">
+        <button class="btn"  ng-class="{'btn-warning':(appId.length>5)}" ng-click="cast(appId)">Cast</div>
+    </div>
+</div>
+
+<div class="row bus">
+    <div class="col-md-10">
+        <h1>Message bus</h1>
+    </div>
+</div>
+
+<div class="row">
+    <form>
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="opt.name" placeholder="Bus namespace"> 
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="opt.def" placeholder="Default message"> 
+        </div>
+        <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="opt.placeholder" placeholder="Placeholder"> 
+        </div>
+        <div class="col-md-3">
+            <button class="btn btn-primary" ng-click="add(opt)">Add bus</button>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-md-12"><h1>My Bus<h1></div>
+</div>
+<div ng-repeat="b in bus" class="row bus">
+    <div class="col-md-3">
+        {{b.name}}
+    </div>
+    <div class="col-md-3">
+        <input class="form-control" type="text" ng-model="b.def" placeholder="{{b.placeholder}}">
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3">
+        <button ng-click="send(b.name, b.def)" class="btn btn-primary">Send</button>
+        <button ng-click="remove(b.name)" class="btn btn-danger">Delete</button>
+    </div>
+</div>
