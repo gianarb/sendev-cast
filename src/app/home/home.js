@@ -35,10 +35,16 @@ angular.module( 'ngBoilerplate.home', [
 
     $window.receiverListener = function(e){
         if( e === 'available' ) {
-            console.log("receiver found");
+            $rootScope.logs.push({
+                message: "Receiver found",
+                type: "info"
+            });
         }
         else {
-            console.log("receiver list empty");
+            $rootScope.logs.push({
+                message: "receiver list empty",
+                type: "warning"
+            });
         }
     };
 
@@ -52,8 +58,22 @@ angular.module( 'ngBoilerplate.home', [
             );
             cast.initialize(
                 apiConfig, 
-                function(event){console.log('onSuccess', event);}, 
-                function(event){console.log('onError', event);}
+                function(event){ 
+                    if(event){
+                        $rootScope.logs.push({
+                            message: event,
+                            type: "info"
+                        });
+                    }
+                }, 
+                function(event){
+                    if(event){
+                        $rootScope.logs.push({
+                            message: event,
+                            type: "error"
+                        });
+                    }
+                }
             );         
         });
     };
@@ -65,8 +85,18 @@ angular.module( 'ngBoilerplate.home', [
         $window.session.sendMessage(
             namespace, 
             message, 
-            function(e){console.log("Message sent: " + e);}, 
-            function(e){console.log('Error: '+ e);}
+            function(e){
+                $rootScope.logs.push({
+                    type: "info",
+                    message: e
+                });
+            }, 
+            function(e){
+                $rootScope.logs.push({
+                    type: 'error',
+                    message: e
+                });
+            }
         );
     }; 
 
