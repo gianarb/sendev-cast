@@ -15,19 +15,26 @@ angular.module( 'ngBoilerplate.home', [
   });
 })
 .controller('HomeCtrl', ['$scope', '$rootScope', '$window', function HomeController( $scope, $rootScope, $window ) {
-    $scope.bus = [];
-    
+    $rootScope.configuration = {};
+    $rootScope.configuration.bus = [];
+    $scope.initStatus = false;    
     $window.sessionListener = function(e){
-        console.log("session listener", e);
+        $rootScope.logs.push({
+            type:"info",
+            message: "Start "+e.displayName+"app, number "+e.appId+" with sessionId ="+e.sessionId
+        });
         $rootScope.cast.then(function(cast){
             $window.session = e;
             $window.session.addUpdateListener(function(isAlive){
-                console.log("session updatete", isAlive);
                 $window.session = null;
             });
-            angular.forEach($scope.bus, function(obj, key){ 
+            angular.forEach($rootScope.configuration.bus, function(obj, key){ 
                 $window.session.addMessageListener(obj.name, function(message){
-                    console.log("ReceiverMessage", message);
+                    $rootScope.logs.push({
+                        type:"info",
+                        message: "ReceiverMessage from "+ message
+                    });
+                    $scope.apply();
                 });
             });
         });
@@ -39,18 +46,35 @@ angular.module( 'ngBoilerplate.home', [
                 message: "Receiver found",
                 type: "info"
             });
+            $scope.initStatus = true;
         }
         else {
             $rootScope.logs.push({
                 message: "receiver list empty",
                 type: "warning"
             });
+            $scope.initStatus = false;
         }
     };
 
-    $scope.cast = function(appId){
+    $scope.cast = function(){
+        $rootScope.cast.then(function(cast){
+            cast.requestSession(function(e){
+                $window.session = e;
+            }, function(){
+                $rootScope.logs.push({
+                    message:"Close extension",
+                    type: "warning"
+                });
+                $scope.$apply();
+            });
+        });
+    };
+
+    $scope.init = function(appId){
         $rootScope.cast.then(function(cast){
             $window.sessionRequest = new chrome.cast.SessionRequest(appId);
+            $rootScope.configuration.appId = appId;
             var apiConfig = new chrome.cast.ApiConfig(
                 $window.sessionRequest,
                 $window.sessionListener,
@@ -78,7 +102,12 @@ angular.module( 'ngBoilerplate.home', [
         });
     };
 
+    $scope.overrideConf = function(c){
+        $rootScope.configuration = JSON.parse(c);
+    };
+
     /**
+     *
      * Bus section
      */
     $scope.send = function(namespace, message){
@@ -90,6 +119,7 @@ angular.module( 'ngBoilerplate.home', [
                     type: "info",
                     message: e
                 });
+                $scope.$apply();
             }, 
             function(e){
                 $rootScope.logs.push({
@@ -104,16 +134,16 @@ angular.module( 'ngBoilerplate.home', [
         if(!opt.placeholder){
             opt.placeholder = opt.name;
         }
-        $scope.bus.push(opt);
+        $rootScope.configuration.bus.push(opt);
         delete $scope.opt;
     };
 
     $scope.remove = function(name){
-        angular.forEach($scope.bus, function(obj, key){ 
+        angular.forEach($rootScope.configuration.bus, function(obj, key){ 
         if(obj.name === name){
-            $scope.bus.splice(key, 1);
+            $rootScope.configuration.bus.splice(key, 1);
         }
-        }, $scope.bus);
+        }, $rootScope.configuration.bus);
     };
 }]);
 

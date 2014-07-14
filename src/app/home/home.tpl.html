@@ -1,56 +1,83 @@
 <div class="row">
-    <div class="col-md-4">
-        <input type="text" class="form-control" ng-model="appId" placeholder="Application id"> 
-    </div>
-    <div class="col-md-2">
-        <button class="btn"  ng-class="{'btn-warning':(appId.length>5)}" ng-click="cast(appId)">Cast</div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-md-10">
-        <ul>
-            <li ng-repeat="log in logs">{{ log.message }}</li>
-        </ul>
-    </div>
-</div>
-
-<div class="row bus">
-    <div class="col-md-10">
-        <h1>Message bus</h1>
-    </div>
-</div>
-
-<div class="row">
-    <form>
-        <div class="col-md-3">
-            <input type="text" class="form-control" ng-model="opt.name" placeholder="Bus namespace"> 
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" class="form-control" ng-model="configuration.appId" placeholder="Application id"> 
+            </div>
+            <div class="col-md-4">
+                <button class="btn"  ng-class="{'btn-warning':(appId.length>5)}" ng-click="init(configuration.appId)">Initialize</button>
+                <button class="btn"  ng-if="initStatus" ng-click="cast()">Cast</button>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" ng-model="opt.def" placeholder="Default message"> 
+        
+        <div class="row bus">
+            <div class="col-md-10">
+                <h1>Message bus</h1>
+            </div>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control" ng-model="opt.placeholder" placeholder="Placeholder"> 
-        </div>
-        <div class="col-md-3">
-            <button class="btn btn-primary" ng-click="add(opt)">Add bus</button>
-        </div>
-    </form>
-</div>
 
-<div class="row">
-    <div class="col-md-12"><h1>My Bus<h1></div>
-</div>
-<div ng-repeat="b in bus" class="row bus">
-    <div class="col-md-3">
-        {{b.name}}
+        <div class="row">
+            <form>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-model="opt.name" placeholder="Bus namespace"> 
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-model="opt.def" placeholder="Default message"> 
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" ng-model="opt.placeholder" placeholder="Placeholder"> 
+                </div>
+                <div class="col-md-3">
+                    <button class="btn btn-primary" ng-click="add(opt)">Add bus</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12"><h1>My Bus<h1></div>
+        </div>
+        <div ng-repeat="b in configuration.bus" class="row bus">
+            <div class="col-md-3">
+                {{b.name}}
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" type="text" ng-model="b.def" placeholder="{{b.placeholder}}">
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <button ng-click="send(b.name, b.def)" class="btn btn-primary">Send</button>
+                <button ng-click="remove(b.name)" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div> <!-- Close first column -->
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3>Logs</h3>
+                    <ul>
+                        <li ng-repeat="log in logs">{{ log.message }}</li>
+                    </ul>
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="col-md-12">
+                    <h3>Configuration</h3>
+                    {{ configuration | json }}
+                </div>
+            </div>
+
+            <div  class="row">
+                <div class="col-md-12">
+                    <textarea ng-model="myConfiguration"></textarea>
+                    <button ng-click="overrideConf(myConfiguration)">Load..</button>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="col-md-3">
-        <input class="form-control" type="text" ng-model="b.def" placeholder="{{b.placeholder}}">
-    </div>
-    <div class="col-md-3"></div>
-    <div class="col-md-3">
-        <button ng-click="send(b.name, b.def)" class="btn btn-primary">Send</button>
-        <button ng-click="remove(b.name)" class="btn btn-danger">Delete</button>
-    </div>
+
+
 </div>
