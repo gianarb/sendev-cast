@@ -1,16 +1,16 @@
 {
-  "author": "Josh David Miller",
-  "name": "ngbp",
-  "version": "0.3.2",
-  "homepage": "https://github.com/gianarb/ngbp",
+  "author": "Gianluca Arbezzano",
+  "name": "sendevcast",
+  "version": "0.0.1",
+  "homepage": "https://github.com/gianarb/sendev-cast",
   "licenses": {
     "type": "MIT",
-    "url": "https://raw.github.com/gianarb/ngbp/master/LICENSE"
+    "url": "https://raw.github.com/gianarb/sendev-cast/master/LICENSE"
   },
-  "bugs": "https://github.com/gianarb/ngbp/issues",
+  "bugs": "https://github.com/gianarb/sendev-cast/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:gianarb/ngbp.git"
+    "url": "git@github.com:gianarb/sendev-cast.git"
   },
   "scripts": {
     "postinstall": "bower install"

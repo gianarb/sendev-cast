@@ -111,6 +111,17 @@ module.exports = function ( grunt ) {
           }
         ]
       },
+      cname_bin: {
+        files: [
+          {
+            src: [ './CNAME' ],
+            dest: '<%= compile_dir %>/',
+            cwd: '.',
+            expand: true
+          }
+        ]
+      },
+
       build_vendorjs: {
         files: [
           {
@@ -507,9 +518,9 @@ module.exports = function ( grunt ) {
   /**
    * The default task is to build and compile.
    */
-  grunt.registerTask( 'default', [ 'build', 'compile' ] );
+  grunt.registerTask( 'default', [ 'build', 'compile', 'copy:cname_bin' ] );
 
-  grunt.registerTask('build', ['soft-build', 'test']);
+  grunt.registerTask('build', ['soft-build']);
 
   grunt.registerTask('test', ['karmaconfig', 'jshint', 'karma:continuous']);
 
