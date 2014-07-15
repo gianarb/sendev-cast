@@ -1,6 +1,8 @@
 angular.module( 'ngBoilerplate', [
   'templates-app',
   'templates-common',
+  'angulartics', 
+  'angulartics.google.analytics',
   'ngBoilerplate.home',
   'ngBoilerplate.about',
   'ui.router',
