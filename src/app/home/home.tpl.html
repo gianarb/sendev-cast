@@ -1,3 +1,8 @@
+<div class="row header text-center">
+    <div class="col-md-12">
+        <span class="title">SenDev Cast </span><span class="subtitle"> A generic Google Chromecast sender</span>
+    </div>
+</div>
 <div class="row">
     <div class="col-md-8">
         <div class="row">
@@ -53,31 +58,34 @@
 
     <div class="row">
         <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <h3>Logs</h3>
+            <tabset>
+                <tab heading="Logs">
                     <ul>
                         <li ng-repeat="log in logs">{{ log.message }}</li>
                     </ul>
-                </div>
-            </div>
+                </tab>
+                <tab heading="Configuration">
+                    <div hljs language="json" include="'compile-me'" compile="true">
+                    </div>
+                    <div  class="row">
+                        <div class="col-md-12">
+                            <form role="form">
+                                <div class="form-group">
+                                    <label for="myConf">Paste your configuration</label>
+                                    <textarea class="form-control" rows="3" ng-model="myConf"></textarea>
+                                </div>
+                                <button class="btn btn-default" ng-click="overrideConf(myConf)">Load</button>
+                            </form>
+                        </div>
+                    </div>
 
-             <div class="row">
-                <div class="col-md-12">
-                    <h3>Configuration</h3>
-                    {{ configuration | json }}
-                </div>
-            </div>
-
-            <div  class="row">
-                <div class="col-md-12">
-                    <textarea ng-model="myConfiguration"></textarea>
-                    <button ng-click="overrideConf(myConfiguration)">Load..</button>
-                </div>
-            </div>
-
+                </tab>
+            </tabset>
         </div>
     </div>
-
-
 </div>
+
+<script type="text/ng-template" id="compile-me">
+{{ configuration | json}}
+</script>
+

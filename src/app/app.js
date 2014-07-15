@@ -3,11 +3,13 @@ angular.module( 'ngBoilerplate', [
   'templates-common',
   'ngBoilerplate.home',
   'ngBoilerplate.about',
-  'ui.router'
+  'ui.router',
+  'hljs'
 ])
 
-.config( function myAppConfig ( $stateProvider, $urlRouterProvider ) {
+.config( function myAppConfig ( $stateProvider, $urlRouterProvider, hljsServiceProvider ) {
   $urlRouterProvider.otherwise( '/home' );
+
 })
 
 .run(['$window', '$timeout', '$rootScope', '$q', function run ($window, $timeout, $rootScope, $q) {
