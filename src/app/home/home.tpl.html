@@ -17,6 +17,23 @@
         
         <div class="row bus">
             <div class="col-md-10">
+                <h1>Media</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <input typ="text" class="form-control" ng-model="mediaUrl" placeholder="http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4" >
+            </div>
+            <div class="col-md-2">
+                <button class="btn" ng-click="loadMedia(mediaUrl)">Play</button>
+            </div>
+            <div class="col-md-2">
+                <button class="btn" ng-click="stop()">Pause</button>
+            </div>
+        </div>
+
+        <div class="row bus">
+            <div class="col-md-10">
                 <h1>Message bus</h1>
             </div>
         </div>

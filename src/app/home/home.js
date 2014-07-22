@@ -18,6 +18,7 @@ angular.module( 'ngBoilerplate.home', [
     $rootScope.configuration = {};
     $rootScope.configuration.bus = [];
     $scope.initStatus = false;    
+    $scope.mediaUrl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/big_buck_bunny_1080p.mp4";
     $window.sessionListener = function(e){
         $rootScope.logs.push({
             type:"info",
@@ -55,6 +56,48 @@ angular.module( 'ngBoilerplate.home', [
             });
             $scope.initStatus = false;
         }
+    };
+
+    $scope.stop = function()
+    {
+        $scope.currentMedia.stop(null,
+            function(e){
+                $rootScope.logs.push({
+                    message: e,
+                    type: "info"
+                });
+            },
+            function(e){
+                rootScope.logs.push({
+                    message:e,
+                    type: "error"
+                });
+            });
+    };
+
+    $scope.loadMedia = function(url)
+    {
+        var onMediaDiscovered = function(how, media) {
+            console.log("new media session ID:" + media.mediaSessionId);
+            $scope.currentMedia = media;
+        };
+
+        $rootScope.cast.then(function(cast){
+            var mediaInfo = new cast.media.MediaInfo(url);
+            mediaInfo.contentType = 'video/mp4';
+            var request = new chrome.cast.media.LoadRequest(mediaInfo);
+            request.autoplay = true;
+            request.currentTime = 0;
+            session.loadMedia(request,
+                onMediaDiscovered.bind(this, 'loadMedia'),
+                function(e){
+                     $rootScope.logs.push({
+                        message: e,
+                        type: "error"
+                    });
+                }
+            );
+        }); 
     };
 
     $scope.cast = function(){
