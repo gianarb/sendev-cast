@@ -73,6 +73,9 @@ angular.module( 'ngBoilerplate.home', [
 
     $scope.init = function(appId){
         $rootScope.cast.then(function(cast){
+            if(appId == "default"){
+                appId = chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID;
+            }
             $window.sessionRequest = new chrome.cast.SessionRequest(appId);
             $rootScope.configuration.appId = appId;
             var apiConfig = new chrome.cast.ApiConfig(
