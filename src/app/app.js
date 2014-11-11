@@ -1,10 +1,9 @@
 angular.module( 'ngBoilerplate', [
   'templates-app',
   'templates-common',
-  'angulartics', 
+  'angulartics',
   'angulartics.google.analytics',
   'ngBoilerplate.home',
-  'ngBoilerplate.about',
   'ui.router',
   'hljs'
 ])
@@ -19,7 +18,7 @@ angular.module( 'ngBoilerplate', [
      * Manage history
      */
     $rootScope.logs = [];
-    
+
     /**
      * Cast is ready?!
      */
